@@ -1,16 +1,10 @@
 package com.catnip.firebaseauthexample.presentation.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.catnip.firebaseauthexample.R
-import com.catnip.firebaseauthexample.data.network.firebase.auth.FirebaseAuthDataSourceImpl
-import com.catnip.firebaseauthexample.data.repository.UserRepositoryImpl
-import com.catnip.firebaseauthexample.databinding.ActivityLoginBinding
+import androidx.appcompat.app.AppCompatActivity
 import com.catnip.firebaseauthexample.databinding.ActivityMainBinding
-import com.catnip.firebaseauthexample.presentation.login.LoginViewModel
 import com.catnip.firebaseauthexample.utils.GenericViewModelFactory
-import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,15 +23,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showUserData() {
-        viewModel.getCurrentUser()?.let {
-            binding.tvData.text = it.toString()
-        }
+        //todo : show profile data
     }
 
     private fun createViewModel(): MainViewModel {
-        val firebaseAuth = FirebaseAuth.getInstance()
-        val dataSource = FirebaseAuthDataSourceImpl(firebaseAuth)
-        val repo = UserRepositoryImpl(dataSource)
-        return MainViewModel(repo)
+        return MainViewModel()
     }
 }
