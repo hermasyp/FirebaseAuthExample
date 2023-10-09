@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1084437686965",
+    "project_id": "fir-authexample-hermas",
+    "storage_bucket": "fir-authexample-hermas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1084437686965:android:f2c8ea814de789086b2cfc",
+        "android_client_info": {
+          "package_name": "com.catnip.firebaseauthexample"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1MMhiQ64p5_U9ETWnyLiEhBpFhbeXKbI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
