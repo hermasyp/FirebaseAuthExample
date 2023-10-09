@@ -1,19 +1,10 @@
 package com.catnip.firebaseauthexample.presentation.splashscreen
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
-import com.catnip.firebaseauthexample.presentation.main.MainActivity
-import com.catnip.firebaseauthexample.data.network.firebase.auth.FirebaseAuthDataSourceImpl
-import com.catnip.firebaseauthexample.data.repository.UserRepositoryImpl
+import androidx.appcompat.app.AppCompatActivity
 import com.catnip.firebaseauthexample.databinding.ActivitySplashBinding
-import com.catnip.firebaseauthexample.presentation.login.LoginActivity
 import com.catnip.firebaseauthexample.utils.GenericViewModelFactory
-import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class SplashActivity : AppCompatActivity() {
 
@@ -22,10 +13,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun createViewModel(): SplashViewModel {
-        val firebaseAuth = FirebaseAuth.getInstance()
-        val dataSource = FirebaseAuthDataSourceImpl(firebaseAuth)
-        val repo = UserRepositoryImpl(dataSource)
-        return SplashViewModel(repo)
+        return SplashViewModel()
     }
 
     private val binding: ActivitySplashBinding by lazy {
@@ -39,26 +27,10 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun checkIfUserLogin() {
-        lifecycleScope.launch {
-            delay(2000)
-            if (viewModel.isUserLoggedIn()) {
-                navigateToMain()
-            } else {
-                navigateToLogin()
-            }
-        }
+        //todo : check user login
+        //if not login yet, navigate to login page
+        //if already login, navigate to main
     }
 
-    private fun navigateToLogin() {
-        startActivity(Intent(this, LoginActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        })
 
-    }
-
-    private fun navigateToMain() {
-        startActivity(Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        })
-    }
 }
