@@ -16,6 +16,7 @@ import com.catnip.firebaseauthexample.presentation.register.RegisterActivity
 import com.catnip.firebaseauthexample.utils.GenericViewModelFactory
 import com.catnip.firebaseauthexample.utils.highLightWord
 import com.catnip.firebaseauthexample.utils.proceedWhen
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
@@ -107,33 +108,43 @@ class LoginActivity : AppCompatActivity() {
     private fun isFormValid(): Boolean {
         val email = binding.layoutForm.etEmail.text.toString().trim()
         val password = binding.layoutForm.etPassword.text.toString().trim()
-        var isFormValid = true
 
-        if (email.isEmpty()) {
-            isFormValid = false
+        return checkEmailValidation(email) &&
+                checkPasswordValidation(password, binding.layoutForm.tilPassword)
+    }
+
+    private fun checkEmailValidation(email: String): Boolean {
+        return if (email.isEmpty()) {
             binding.layoutForm.tilEmail.isErrorEnabled = true
             binding.layoutForm.tilEmail.error = getString(R.string.text_error_email_empty)
+            false
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            isFormValid = false
             binding.layoutForm.tilEmail.isErrorEnabled = true
             binding.layoutForm.tilEmail.error = getString(R.string.text_error_email_invalid)
+            false
         } else {
             binding.layoutForm.tilEmail.isErrorEnabled = false
+            true
         }
+    }
 
-        if (password.isEmpty()) {
-            isFormValid = false
-            binding.layoutForm.tilPassword.isErrorEnabled = true
-            binding.layoutForm.tilPassword.error = getString(R.string.text_error_password_empty)
-        } else if (password.length < 8) {
-            isFormValid = false
-            binding.layoutForm.tilPassword.isErrorEnabled = true
-            binding.layoutForm.tilPassword.error =
+    private fun checkPasswordValidation(
+        confirmPassword: String,
+        textInputLayout: TextInputLayout
+    ): Boolean {
+        return if (confirmPassword.isEmpty()) {
+            textInputLayout.isErrorEnabled = true
+            textInputLayout.error =
+                getString(R.string.text_error_password_empty)
+            false
+        } else if (confirmPassword.length < 8) {
+            textInputLayout.isErrorEnabled = true
+            textInputLayout.error =
                 getString(R.string.text_error_password_less_than_8_char)
+            false
         } else {
-            binding.layoutForm.tilPassword.isErrorEnabled = false
+            textInputLayout.isErrorEnabled = false
+            true
         }
-
-        return isFormValid
     }
 }

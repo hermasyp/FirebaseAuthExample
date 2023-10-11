@@ -1,5 +1,6 @@
 package com.catnip.firebaseauthexample.data.network.firebase.auth
 
+import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -17,6 +18,17 @@ interface FirebaseAuthDataSource {
 
     @Throws(exceptionClasses = [Exception::class])
     suspend fun doRegister(fullName: String, email: String, password: String): Boolean
+
+    suspend fun updateProfile(
+        fullName: String? = null,
+        photoUri: Uri? = null
+    ): Boolean
+
+    suspend fun updatePassword(newPassword: String): Boolean
+
+    suspend fun updateEmail(newEmail: String): Boolean
+
+    fun sendChangePasswordRequestByEmail(): Boolean
 
     fun doLogout(): Boolean
 
@@ -42,6 +54,34 @@ class FirebaseAuthDataSourceImpl(private val firebaseAuth: FirebaseAuth) : Fireb
             }
         )?.await()
         return registerResult.user != null
+    }
+
+    override suspend fun updateProfile(
+        fullName: String?,
+        photoUri: Uri?
+    ): Boolean {
+        getCurrentUser()?.updateProfile(
+            userProfileChangeRequest {
+                fullName?.let { displayName = fullName }
+                photoUri?.let { this.photoUri = it }
+            }
+        )?.await()
+        return true
+    }
+
+    override suspend fun updatePassword(newPassword: String): Boolean {
+        getCurrentUser()?.updatePassword(newPassword)?.await()
+        return true
+    }
+
+    override suspend fun updateEmail(newEmail: String): Boolean {
+        getCurrentUser()?.updateEmail(newEmail)?.await()
+        return true
+    }
+
+    override fun sendChangePasswordRequestByEmail(): Boolean {
+        getCurrentUser()?.email?.let { firebaseAuth.sendPasswordResetEmail(it) }
+        return true
     }
 
     override fun getCurrentUser(): FirebaseUser? {
