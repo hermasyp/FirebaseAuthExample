@@ -34,15 +34,10 @@ class MainActivity : AppCompatActivity() {
         GenericViewModelFactory.create(createViewModel())
     }
 
-    private val pickMedia =
-        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-            if (uri != null) {
-                changePhotoProfile(uri)
-            }
-        }
+    //todo : create media picker result
 
     private fun changePhotoProfile(uri: Uri) {
-        viewModel.updateProfilePicture(uri)
+        //todo : change photo profile here
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,121 +50,42 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setClickListeners() {
-        binding.btnChangeProfile.setOnClickListener {
-            if (checkNameValidation()) {
-                changeProfileData()
-            }
-        }
-        binding.ivEditPhoto.setOnClickListener {
-            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-        }
-        binding.tvChangePwd.setOnClickListener {
-            requestChangePassword()
-        }
-        binding.tvLogout.setOnClickListener {
-            doLogout()
-        }
+        //todo : set click listener
     }
 
     private fun requestChangePassword() {
-        viewModel.createChangePwdRequest()
-        val dialog = AlertDialog.Builder(this)
-            .setMessage("Change password request sended to your email : ${viewModel.getCurrentUser()?.email} Please check to your inbox or spam")
-            .setPositiveButton(
-                "Okay"
-            ) { dialog, id ->
-
-            }.create()
-        dialog.show()
+        //todo : request change password to viewmodel and show dialog
     }
 
     private fun doLogout() {
-        val dialog = AlertDialog.Builder(this).setMessage("Do you want to logout ?")
-            .setPositiveButton(
-                "Yes"
-            ) { dialog, id ->
-                viewModel.doLogout()
-                navigateToLogin()
-            }
-            .setNegativeButton(
-                "No"
-            ) { dialog, id ->
-                //no-op , do nothing
-            }.create()
-        dialog.show()
+        //todo :  show dialog, if yes proceed logout
+
     }
 
     private fun navigateToLogin() {
-        startActivity(Intent(this, LoginActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        })
+        //todo :  navigate to login
     }
 
     private fun changeProfileData() {
-        val fullName = binding.layoutForm.etName.text.toString().trim()
-        viewModel.updateFullName(fullName)
+        //todo :  change fullname data
     }
 
     private fun checkNameValidation(): Boolean {
-        val fullName = binding.layoutForm.etName.text.toString().trim()
-        return if (fullName.isEmpty()) {
-            binding.layoutForm.tilName.isErrorEnabled = true
-            binding.layoutForm.tilName.error = getString(R.string.text_error_name_cannot_empty)
-            false
-        } else {
-            binding.layoutForm.tilName.isErrorEnabled = false
-            true
-        }
+        //todo :  check if name is valid
+        return false
     }
 
     private fun observeData() {
-        viewModel.changePhotoResult.observe(this) {
-            it.proceedWhen(doOnSuccess = {
-                Toast.makeText(this, "Change Photo Profile Success !", Toast.LENGTH_SHORT).show()
-                showUserData()
-            }, doOnError = {
-                Toast.makeText(this, "Change Photo Profile Failed !", Toast.LENGTH_SHORT).show()
-                showUserData()
-            })
-        }
-        viewModel.changeProfileResult.observe(this) {
-            it.proceedWhen(
-                doOnSuccess = {
-                    binding.pbLoading.isVisible = false
-                    binding.btnChangeProfile.isVisible = true
-                    Toast.makeText(this, "Change Profile data Success !", Toast.LENGTH_SHORT).show()
-                },
-                doOnError = {
-                    binding.pbLoading.isVisible = false
-                    binding.btnChangeProfile.isVisible = true
-                    Toast.makeText(this, "Change Profile data Failed !", Toast.LENGTH_SHORT).show()
-
-                },
-                doOnLoading = {
-                    binding.pbLoading.isVisible = true
-                    binding.btnChangeProfile.isVisible = false
-                }
-            )
-        }
+        //todo : observe result change photo and detail
     }
 
     private fun setupForm() {
-        binding.layoutForm.tilName.isVisible = true
-        binding.layoutForm.tilEmail.isVisible = true
-        binding.layoutForm.etEmail.isEnabled = false
+        //todo : setup form that required in this page
     }
 
     private fun showUserData() {
-        viewModel.getCurrentUser()?.let {
-            binding.layoutForm.etName.setText(it.fullName)
-            binding.layoutForm.etEmail.setText(it.email)
-            binding.ivProfilePict.load(it.photoUrl) {
-                crossfade(true)
-                placeholder(R.drawable.iv_profile_placeholder)
-                error(R.drawable.iv_profile_placeholder)
-                transformations(CircleCropTransformation())
-            }
-        }
+        //todo : show user data to the views
+
     }
 
     private fun createViewModel(): MainViewModel {

@@ -30,10 +30,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun createViewModel(): LoginViewModel {
-        val firebaseAuth = FirebaseAuth.getInstance()
-        val dataSource = FirebaseAuthDataSourceImpl(firebaseAuth)
-        val repo = UserRepositoryImpl(dataSource)
-        return LoginViewModel(repo)
+        return LoginViewModel()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,106 +42,44 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupForm() {
-        with(binding.layoutForm) {
-            tilEmail.isVisible = true
-            tilPassword.isVisible = true
-        }
+        //todo : setup form
     }
 
     private fun observeResult() {
-        viewModel.loginResult.observe(this) {
-            it.proceedWhen(
-                doOnSuccess = {
-                    binding.pbLoading.isVisible = false
-                    binding.btnLogin.isVisible = true
-                    navigateToMain()
-                },
-                doOnError = {
-                    binding.pbLoading.isVisible = false
-                    binding.btnLogin.isVisible = true
-                    Toast.makeText(
-                        this,
-                        "Login Failed : ${it.exception?.message.orEmpty()}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                },
-                doOnLoading = {
-                    binding.pbLoading.isVisible = true
-                    binding.btnLogin.isVisible = false
-                }
-            )
-        }
+        //todo : observe value from login result
     }
 
     private fun navigateToMain() {
-        startActivity(Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        })
+        //todo : navigate to main
     }
 
     private fun setClickListeners() {
-        binding.btnLogin.setOnClickListener {
-            doLogin()
-        }
-        binding.tvNavToRegister.highLightWord(getString(R.string.text_highlight_register)) {
-            navigateToRegister()
-        }
+        //todo :set click listener
     }
 
     private fun navigateToRegister() {
-        startActivity(Intent(this, RegisterActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
-        })
+        //todo : navigate to register
     }
 
     private fun doLogin() {
-        if (isFormValid()) {
-            val email = binding.layoutForm.etEmail.text.toString().trim()
-            val password = binding.layoutForm.etPassword.text.toString().trim()
-            viewModel.doLogin(email, password)
-        }
+        //todo : do login process
     }
 
     private fun isFormValid(): Boolean {
-        val email = binding.layoutForm.etEmail.text.toString().trim()
-        val password = binding.layoutForm.etPassword.text.toString().trim()
-
-        return checkEmailValidation(email) &&
-                checkPasswordValidation(password, binding.layoutForm.tilPassword)
+        //todo : create result from email validation and password
+        return false
     }
 
     private fun checkEmailValidation(email: String): Boolean {
-        return if (email.isEmpty()) {
-            binding.layoutForm.tilEmail.isErrorEnabled = true
-            binding.layoutForm.tilEmail.error = getString(R.string.text_error_email_empty)
-            false
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            binding.layoutForm.tilEmail.isErrorEnabled = true
-            binding.layoutForm.tilEmail.error = getString(R.string.text_error_email_invalid)
-            false
-        } else {
-            binding.layoutForm.tilEmail.isErrorEnabled = false
-            true
-        }
+        //todo : check email is valid
+        return false
     }
 
     private fun checkPasswordValidation(
         confirmPassword: String,
         textInputLayout: TextInputLayout
     ): Boolean {
-        return if (confirmPassword.isEmpty()) {
-            textInputLayout.isErrorEnabled = true
-            textInputLayout.error =
-                getString(R.string.text_error_password_empty)
-            false
-        } else if (confirmPassword.length < 8) {
-            textInputLayout.isErrorEnabled = true
-            textInputLayout.error =
-                getString(R.string.text_error_password_less_than_8_char)
-            false
-        } else {
-            textInputLayout.isErrorEnabled = false
-            true
-        }
+        //todo : check password is valid
+        return false
     }
 }
