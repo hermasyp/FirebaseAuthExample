@@ -1,5 +1,6 @@
 package com.catnip.firebaseauthexample.data.repository
 
+import android.net.Uri
 import com.catnip.firebaseauthexample.data.model.User
 import com.catnip.firebaseauthexample.data.model.toUser
 import com.catnip.firebaseauthexample.data.network.firebase.auth.FirebaseAuthDataSource
@@ -25,6 +26,17 @@ interface UserRepository {
     fun isLoggedIn(): Boolean
 
     fun getCurrentUser(): User?
+
+    suspend fun updateProfile(
+        fullName: String? = null,
+        photoUri: Uri? = null
+    ): Flow<ResultWrapper<Boolean>>
+
+    suspend fun updatePassword(newPassword: String): Flow<ResultWrapper<Boolean>>
+
+    suspend fun updateEmail(newEmail: String): Flow<ResultWrapper<Boolean>>
+
+    fun sendChangePasswordRequestByEmail(): Boolean
 }
 
 class UserRepositoryImpl(private val dataSource: FirebaseAuthDataSource) : UserRepository {
@@ -50,6 +62,25 @@ class UserRepositoryImpl(private val dataSource: FirebaseAuthDataSource) : UserR
 
     override fun getCurrentUser(): User? {
         return dataSource.getCurrentUser().toUser()
+    }
+
+    override suspend fun updateProfile(
+        fullName: String?,
+        photoUri: Uri?
+    ): Flow<ResultWrapper<Boolean>> {
+        return proceedFlow { dataSource.updateProfile(fullName, photoUri) }
+    }
+
+    override suspend fun updatePassword(newPassword: String): Flow<ResultWrapper<Boolean>> {
+        return proceedFlow { dataSource.updatePassword(newPassword) }
+    }
+
+    override suspend fun updateEmail(newEmail: String): Flow<ResultWrapper<Boolean>> {
+        return proceedFlow { dataSource.updateEmail(newEmail) }
+    }
+
+    override fun sendChangePasswordRequestByEmail(): Boolean {
+        return dataSource.sendChangePasswordRequestByEmail()
     }
 
 }

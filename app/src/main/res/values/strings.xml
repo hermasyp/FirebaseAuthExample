@@ -16,4 +16,7 @@
     <string name="text_error_name_cannot_empty">Name cannot be empty</string>
     <string name="text_highlight_login_here">Login Here</string>
     <string name="text_highlight_register">Register Here</string>
+    <string name="text_change_profile">Change Profile</string>
+    <string name="text_change_password">Change Password</string>
+    <string name="text_logout">Logout</string>
 </resources>

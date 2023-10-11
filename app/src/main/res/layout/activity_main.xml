@@ -6,13 +6,87 @@
     android:layout_height="match_parent"
     tools:context=".presentation.main.MainActivity">
 
-    <TextView
-        android:id="@+id/tv_data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_profile"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.1">
+
+        <ImageView
+            android:id="@+id/iv_profile_pict"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:src="@tools:sample/avatars" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_edit_photo"
+            app:shapeAppearanceOverlay="@style/circleImageView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/ic_edit" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include
+        android:id="@+id/layout_form"
+        layout="@layout/layout_user_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_profile"
+        app:layout_constraintVertical_bias="0"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <FrameLayout
+        android:id="@+id/fl_btn_loading_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/layout_form">
+
+        <Button
+            android:id="@+id/btn_change_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_change_profile" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/pb_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_change_pwd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/text_change_password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fl_btn_loading_state" />
+
+    <TextView
+        android:id="@+id/tv_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
+        android:text="@string/text_logout"
+        android:textColor="@color/red_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_change_pwd" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
